@@ -15,8 +15,9 @@ import { RouterLink } from 'vue-router'
       <RouterLink
         to="/login"
         class="btn bg-purple-400 border-purple-400 hover:bg-purple-600 hover:border-purple-600 normal-case mt-8"
-        >Lets Start</RouterLink
       >
+        Lets Start
+      </RouterLink>
     </article>
   </AppPage>
 </template>
