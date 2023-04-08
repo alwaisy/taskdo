@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { AppPage, AppText } from '@/components/ui'
 import { RouterLink } from 'vue-router'
+import { useCurrentUser } from 'vuefire'
+
+const user = useCurrentUser()
 </script>
 
 <template>
@@ -13,7 +16,7 @@ import { RouterLink } from 'vue-router'
       </AppText>
 
       <RouterLink
-        to="/login"
+        :to="user ? '/app' : '/login'"
         class="btn bg-purple-400 border-purple-400 hover:bg-purple-600 hover:border-purple-600 normal-case mt-8"
       >
         Lets Start

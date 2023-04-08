@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AppPage } from '@/components/ui'
+import { AppPage, AppText } from '@/components/ui'
 import { useCurrentUser } from 'vuefire'
 
 const user = useCurrentUser()
