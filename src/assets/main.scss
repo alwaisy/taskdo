@@ -4,15 +4,12 @@
 
 body {
   @apply font-inter;
+  @apply bg-white;
 
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: 100vh;
-  // overflow-y: hidden;
-  overflow-y: scroll;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none;
+  // height: 100vh;
 }

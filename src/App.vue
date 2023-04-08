@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { BeakerIcon } from '@heroicons/vue/24/solid'
+import { useHead } from 'unhead'
+
+useHead({
+  title: 'TaskDo',
+  meta: [
+    { name: 'description', content: 'TaskDo is a task manager' },
+    { name: 'keywords', content: 'task manager, todo list' }
+  ]
+  //   link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }]
+})
 </script>
 
 <template>
-  <!-- <RouterView /> -->
-  <div>
-    <h1>App::TaskDo</h1>
-    <h1 class="text-3xl font-bold underline">Hello world!</h1>
-    <BeakerIcon class="h-6 w-6 text-blue-500" />
-    <button class="btn btn-success">Success</button>
-
-    <RouterView />
-  </div>
+  <RouterView />
 </template>
-
-<style scoped lang="postcss"></style>
