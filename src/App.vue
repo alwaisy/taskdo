@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
 import { useHead } from 'unhead'
+import { Layout } from './Layouts'
 
 useHead({
   title: 'TaskDo',
@@ -10,8 +10,10 @@ useHead({
   ]
   //   link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }]
 })
+
+console.log('App.vue', import.meta.env)
 </script>
 
 <template>
-  <RouterView />
+  <Layout />
 </template>

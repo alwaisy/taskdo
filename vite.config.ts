@@ -16,6 +16,7 @@ export default defineConfig({
       }
     })
   ],
+  envPrefix: 'APP_', // prefix for env variables
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

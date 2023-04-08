@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { getCurrentUser } from 'vuefire'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -6,12 +7,20 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/HomeView.vue')
+      component: () => import('@/views/HomeView.vue'),
+      meta: { requiresAuth: false }
     },
     {
+      meta: { requiresAuth: true },
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue')
+    },
+    {
+      meta: { requiresAuth: true },
+      path: '/app',
+      name: 'app',
+      component: () => import('@/views/AppView.vue')
     }
     /* {
       path: '/about',
@@ -22,6 +31,19 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     } */
   ]
+})
+
+router.beforeEach(async (to) => {
+  if (to.meta.requiresAuth as boolean) {
+    const currentUser = await getCurrentUser()
+    if (!currentUser) {
+      setTimeout(() => {
+        return {
+          path: '/login'
+        }
+      }, 1000)
+    }
+  }
 })
 
 export default router
