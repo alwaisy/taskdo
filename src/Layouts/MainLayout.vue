@@ -1,5 +1,27 @@
+<script setup lang="ts">
+import { NavBar } from '@/components'
+</script>
+
 <template>
-  <RouterView />
+  <Suspense>
+    <NavBar />
+  </Suspense>
+
+  <!-- <RouterView /> -->
+
+  <RouterView v-slot="{ Component }">
+    <template v-if="Component">
+      <Transition mode="out-in">
+        <Suspense>
+          <!-- main content -->
+          <component :is="Component" :key="$route.fullPath"></component>
+
+          <!-- loading state -->
+          <template #fallback> Loading... </template>
+        </Suspense>
+      </Transition>
+    </template>
+  </RouterView>
 
   <!-- toast start-->
   <NotificationGroup group="success">

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { AppPage, AppText } from '@/components/ui'
-import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
 import { notify } from 'notiwind'
-import { useRouter, useRoute } from 'vue-router'
-import { AppBtn, AppLinkBtn } from '@/components/ui'
+
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { useCurrentUser } from 'vuefire'
-import { computed } from 'vue'
+
+import { AppPage, AppText } from '@/components/ui'
+import { AppBtn, AppLinkBtn } from '@/components/ui'
 
 const userCreds = reactive({
   email: '',
@@ -19,7 +21,6 @@ const loading = ref<boolean>(false)
 
 const auth = getAuth()
 const router = useRouter()
-const route = useRoute()
 
 const handleLogin = () => {
   loading.value = true
