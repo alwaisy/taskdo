@@ -1,20 +1,23 @@
 <script setup lang="ts">
-import { AppPage, AppText } from '@/components/ui'
+import { AddNewTask, TaskList } from '@/components'
+import { AppPage } from '@/components/ui'
 import { useCurrentUser } from 'vuefire'
-
-const user = useCurrentUser()
 </script>
 
 <template>
   <AppPage>
-    <div class="flex flex-col items-center justify-center h-full">
-      <div class="flex flex-col items-center justify-center">
-        <AppText tag="h1" size="4xl" weight="bold" class="mb-4"> Welcome to the app </AppText>
-        <AppText tag="p" size="lg" class="mb-4"> You are logged in as {{ user?.email }} </AppText>
-        <!-- <AppButton class="w-full" @click="signOut"> Sign out </AppButton> -->
-      </div>
+    <div class="">
+      <AddNewTask />
+      <TaskList />
     </div>
   </AppPage>
 </template>
 
-<style scoped></style>
+<style scoped>
+.modal {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  pointer-events: auto;
+}
+</style>

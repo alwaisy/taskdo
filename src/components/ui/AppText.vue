@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { StyleValue } from 'vue'
+import { computed, type StyleValue } from 'vue'
 
-/* 
+/*
 colors
 red-400
 neutral-200
@@ -12,17 +12,27 @@ sky-500
 */
 
 type Tag = 'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-type Color = 'red-400' | 'neutral-200' | 'zinc-600' | 'purple-400' | 'sky-500'
+type Color =
+  | 'red-400'
+  | 'neutral-200'
+  | 'zinc-600'
+  | 'purple-400'
+  | 'sky-500'
+  | 'default'
+  | 'black'
+  | 'white'
 type Size = 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl'
 type Align = 'left' | 'center' | 'right' | 'justify'
 type Weight = 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold'
+type Decor = 'underline' | 'overline' | 'line-through' | 'no-underline'
 
 const props = defineProps<{
-  tag?: Tag
+  tag: Tag
   color?: Color
   size?: Size
   align?: Align
   weight?: Weight
+  decor?: Decor
   customClass?: string
   customStyle?: StyleValue
 }>()
@@ -32,7 +42,10 @@ const colorVariants = {
   'purple-400': 'text-purple-400',
   'red-400': 'text-red-400',
   'sky-500': 'text-sky-500',
-  'zinc-600': 'text-zinc-600'
+  'zinc-600': 'text-zinc-600',
+  default: 'text-inherit',
+  black: 'text-black',
+  white: 'text-white'
 }
 
 const sizeVariants = {
@@ -63,13 +76,31 @@ const weightVariants = {
   bold: 'font-bold',
   extrabold: 'font-extrabold'
 }
+
+const decorVariants = {
+  underline: 'underline',
+  overline: 'overline',
+  'line-through': 'line-through',
+  'no-underline': 'no-underline'
+}
+
+const classes = computed(() => {
+  return [
+    colorVariants[props.color as Color],
+    sizeVariants[props.size as Size],
+    alignVariants[props.align as Align],
+    weightVariants[props.weight as Weight],
+    decorVariants[props.decor as Decor],
+    props.customClass
+  ]
+})
 </script>
 
 <template>
   <Component
     :is="props.tag"
     class="app-text"
-    :class="[props.customClass, colorVariants[props.color as Color ], sizeVariants[props.size as Size], alignVariants[props.align as Align], weightVariants[props.weight as Weight]]"
+    :class="classes"
     :style="props.customStyle as StyleValue"
   >
     <slot></slot>

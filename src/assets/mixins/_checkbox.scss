@@ -1,0 +1,19 @@
+@mixin custom-checkbox($color) {
+  --a: #{$color};
+  --chkbg: var(--a);
+  --chkfg: var(--ac);
+
+  --tw-border-opacity: 1;
+  border-color: hsl(var(--a) / var(--tw-border-opacity));
+
+  &:checked,
+  &[checked='true'],
+  &[aria-checked='true'] {
+    --tw-border-opacity: 1;
+    border-color: hsl(var(--a) / var(--tw-border-opacity));
+    --tw-bg-opacity: 1;
+    background-color: hsl(var(--a) / var(--tw-bg-opacity));
+    --tw-text-opacity: 1;
+    color: hsl(var(--a) / var(--tw-text-opacity));
+  }
+}

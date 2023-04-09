@@ -13,6 +13,7 @@ interface IProps extends ButtonHTMLAttributes {
   alert?: boolean
   textCase?: TextCase
   loading?: boolean
+  rounded?: boolean
 }
 
 const sizeVariants = {
@@ -38,6 +39,7 @@ const classes = computed(() => [
   props.alert ? 'app-btn__alert' : 'app-btn',
   textCaseVariants[props.textCase as TextCase],
   props.loading && 'loading',
+  props.rounded && 'btn-circle',
   props.customClass && `!${props.customClass}`
 ])
 </script>

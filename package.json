@@ -16,8 +16,10 @@
     "@vueuse/head": "^1.1.23",
     "daisyui": "^2.51.5",
     "firebase": "^9.19.1",
+    "nanoid": "^4.0.2",
     "notiwind": "^2.0.0",
     "pinia": "^2.0.32",
+    "pinia-plugin-persistedstate": "^3.1.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
     "vuefire": "^3.1.0"
