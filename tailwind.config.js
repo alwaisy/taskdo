@@ -7,5 +7,6 @@ module.exports = {
       inter: ['Inter', 'sans-serif']
     }
   },
+
   plugins: [require('@tailwindcss/typography'), require('daisyui')]
 }

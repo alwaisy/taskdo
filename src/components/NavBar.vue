@@ -2,11 +2,13 @@
 import { RouterLink } from 'vue-router'
 import { getAuth, signOut } from 'firebase/auth'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
 import { useCurrentUser } from 'vuefire'
+import { withTaskStore } from '@/stores/task-store'
+import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 const user = useCurrentUser()
+const { numberOfTaskNotCompleted } = storeToRefs(withTaskStore())
 
 const onLogoutClick = () => {
   console.log('onLogoutClick')
@@ -43,7 +45,9 @@ const onLogoutClick = () => {
       <div class="flex items-center gap-x-2">
         <div class="flex flex-col">
           <span class="text-sm">Hi, {{ user?.email }}</span>
-          <span class="text-xs text-red-400 font-medium">4 tasks pending</span>
+          <span class="text-xs text-red-400 font-medium"
+            >{{ numberOfTaskNotCompleted }} tasks pending</span
+          >
         </div>
         <label class="btn btn-ghost btn-circle avatar" tabindex="0">
           <div class="w-10 rounded-full">

@@ -15,6 +15,7 @@ const props = defineProps<{
 
 <style scoped>
 .app-page {
-  @apply flex flex-col h-screen justify-center items-center;
+  @apply flex flex-col justify-center items-center;
+  height: calc(100vh - 4rem);
 }
 </style>

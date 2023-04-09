@@ -11,16 +11,16 @@ const router = createRouter({
       meta: { requiresAuth: false }
     },
     {
-      meta: { requiresAuth: true },
       path: '/login',
       name: 'login',
-      component: () => import('@/views/LoginView.vue')
+      component: () => import('@/views/LoginView.vue'),
+      meta: { requiresAuth: false }
     },
     {
-      meta: { requiresAuth: true },
       path: '/app',
       name: 'app',
-      component: () => import('@/views/AppView.vue')
+      component: () => import('@/views/AppView.vue'),
+      meta: { requiresAuth: true }
     }
     /* {
       path: '/about',
@@ -37,11 +37,9 @@ router.beforeEach(async (to) => {
   if (to.meta.requiresAuth as boolean) {
     const currentUser = await getCurrentUser()
     if (!currentUser) {
-      setTimeout(() => {
-        return {
-          path: '/login'
-        }
-      }, 1000)
+      return {
+        path: '/login'
+      }
     }
   }
 })
