@@ -43,11 +43,11 @@ const onLogoutClick = () => {
 
     <div class="dropdown dropdown-end" v-if="user">
       <div class="flex items-center gap-x-2">
-        <div class="flex flex-col">
+        <div class="flex flex-col max-sm:hidden">
           <span class="text-sm">Hi, {{ user?.email }}</span>
-          <span class="text-xs text-red-400 font-medium"
-            >{{ numberOfTaskNotCompleted }} tasks pending</span
-          >
+          <span class="text-xs text-red-400 font-medium">
+            {{ numberOfTaskNotCompleted }} tasks pending
+          </span>
         </div>
         <label class="btn btn-ghost btn-circle avatar" tabindex="0">
           <div class="w-10 rounded-full">
@@ -59,6 +59,14 @@ const onLogoutClick = () => {
         tabindex="0"
         class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
       >
+        <li class="sm:hidden">
+          <span class="flex flex-col logout-btn">
+            <span class="text-sm">Hi, {{ user?.email }}</span>
+            <span class="text-xs text-red-400 font-medium">
+              {{ numberOfTaskNotCompleted }} tasks pending
+            </span>
+          </span>
+        </li>
         <li @click="onLogoutClick">
           <span class="logout-btn"> Logout </span>
         </li>

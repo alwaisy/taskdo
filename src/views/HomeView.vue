@@ -9,9 +9,9 @@ const user = useCurrentUser()
 <template>
   <AppPage>
     <article class="text-center">
-      <AppText tag="h1" color="zinc-600" size="7xl" weight="bold"> TaskDo </AppText>
+      <AppText tag="h1" color="zinc-600" size="6xl" weight="bold"> TaskDo </AppText>
 
-      <AppText tag="p" color="zinc-600" size="2xl" weight="bold">
+      <AppText tag="p" color="zinc-600" size="lg" weight="bold" custom-class="mt-2">
         Manage You Task Checklist Easily
       </AppText>
 
