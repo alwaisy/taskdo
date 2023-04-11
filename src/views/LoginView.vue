@@ -11,8 +11,8 @@ import { AppPage, AppText } from '@/components/ui'
 import { AppBtn, AppLinkBtn } from '@/components/ui'
 
 const userCreds = reactive({
-  email: '',
-  password: ''
+  email: 'awais@task.do',
+  password: '123456'
 })
 
 const user = useCurrentUser()

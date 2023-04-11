@@ -4,6 +4,7 @@ import { createHead } from '@vueuse/head'
 import { VueFire, VueFireAuth } from 'vuefire'
 import Notifications from 'notiwind'
 import piniaPluginPersistedState from 'pinia-plugin-persistedstate'
+import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 
 import App from './App.vue'
 import router from './router'
@@ -25,5 +26,6 @@ app.use(VueFire, {
   modules: [VueFireAuth()]
 })
 app.use(Notifications)
+app.use(autoAnimatePlugin)
 
 app.mount('#app')

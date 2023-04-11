@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AppText, AppBtn } from './ui'
+import { AppText, AppBtn, AppLoading } from './ui'
 import { TrashIcon } from '@heroicons/vue/24/solid'
 import { withTaskStore } from '@/stores/task-store'
 import { storeToRefs } from 'pinia'
@@ -13,8 +13,11 @@ const task = ref<string>('')
 const isShowInput = ref<boolean>(false)
 const taskId = ref<string | number>('')
 
-const { tasks } = storeToRefs(withTaskStore())
-const { editTask, removeTask, toggleTask } = withTaskStore()
+const { getTasks, editTask, removeTask, toggleTask } = withTaskStore()
+
+await getTasks()
+const { tasks, loading } = storeToRefs(withTaskStore())
+const index = ref<number>(0)
 
 const toggleInput = () => {
   isShowInput.value = !isShowInput.value
@@ -25,16 +28,16 @@ const openEditTaskModal = (singleTask: Task) => {
 
   isShowInput.value = true
   task.value = singleTask.title
-  taskId.value = singleTask.id
+  taskId.value = singleTask.id as string
 }
 
-const onEditTask = () => {
+const onEditTask = async () => {
   isLoading.value = true
 
   if (task.value === '') {
     notify({
       group: 'error',
-      text: 'Please enter a task',
+      text: 'Task cannot be empty',
       title: 'error'
     })
 
@@ -43,17 +46,59 @@ const onEditTask = () => {
     return
   }
 
-  // add task to store
-  editTask(taskId.value, task.value)
+  // add task to store (edit task)
+  await editTask(taskId.value, task.value)
+  notify({
+    group: 'success',
+    text: 'Task edited successfully',
+    title: 'success'
+  })
 
   isLoading.value = false
   task.value = ''
   isShowInput.value = false
 }
+
+const onRemoveTask = async (id: string | number) => {
+  index.value = id as number
+  await removeTask(id)
+
+  notify({
+    group: 'error',
+    text: 'Task removed successfully',
+    title: 'error'
+  })
+}
+
+const onToggleTask = async (task: Task) => {
+  // index.value = id as number
+  try {
+    await toggleTask(task.id as string)
+    if (task.completed) {
+      notify({
+        group: 'success',
+        text: 'Win win! Task completed successfully',
+        title: 'success'
+      })
+    } else {
+      notify({
+        group: 'error',
+        text: 'Task status changed to incomplete',
+        title: 'error'
+      })
+    }
+  } catch (error) {
+    notify({
+      group: 'error',
+      text: 'Status cannot be changed' + error,
+      title: 'error'
+    })
+  }
+}
 </script>
 
 <template>
-  <div class="mt-3">
+  <div class="mt-3" v-auto-animate>
     <div
       class="flex gap-x-2 items-center"
       :class="[task.completed ? 'cursor-not-allowed' : 'cursor-pointer']"
@@ -61,13 +106,18 @@ const onEditTask = () => {
       :key="task.id"
       @click="openEditTaskModal(task)"
     >
-      <TrashIcon class="h-4 w-4 cursor-pointer text-red-400" @click.stop="removeTask(task.id)" />
+      <AppLoading size="w-4 h-4" v-if="task.id === index && loading" />
+      <TrashIcon
+        class="h-4 w-4 cursor-pointer text-red-400"
+        @click.stop="onRemoveTask(task.id as string)"
+        v-else
+      />
       <input
         type="checkbox"
         class="task-checkbox"
         data-theme="dark"
         :checked="task.completed"
-        @click.stop="toggleTask(task.id)"
+        @click.stop="onToggleTask(task)"
       />
       <AppText
         tag="p"

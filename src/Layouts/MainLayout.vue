@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { NavBar } from '@/components'
+import { AppLoading } from '@/components/ui'
 </script>
 
 <template>
@@ -17,7 +18,7 @@ import { NavBar } from '@/components'
           <component :is="Component" :key="$route.fullPath"></component>
 
           <!-- loading state -->
-          <template #fallback> Loading... </template>
+          <template #fallback> <AppLoading /> </template>
         </Suspense>
       </Transition>
     </template>

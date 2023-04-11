@@ -5,19 +5,22 @@ import { PlusCircleIcon, PlusIcon } from '@heroicons/vue/24/solid'
 import { notify } from 'notiwind'
 import { withTaskStore } from '@/stores/task-store'
 import { nanoid } from 'nanoid'
+import { storeToRefs } from 'pinia'
 
 const isLoading = ref<boolean>(false)
 const task = ref<string>('')
 const isShowInput = ref<boolean>(false)
+
+const { loading } = storeToRefs(withTaskStore())
 const { addTask } = withTaskStore()
 
 const toggleInput = () => {
   isShowInput.value = !isShowInput.value
+
+  console.log(isShowInput.value, 'dialog was closed')
 }
 
-const onAddTask = () => {
-  isLoading.value = true
-
+const onAddTask = async () => {
   if (task.value === '') {
     notify({
       group: 'error',
@@ -25,21 +28,29 @@ const onAddTask = () => {
       title: 'error'
     })
 
-    isLoading.value = false
-
     return
   }
 
-  // add task to store
-  addTask({
-    id: nanoid(),
-    title: task.value,
-    completed: false
-  })
+  try {
+    await addTask({
+      // taskId: nanoid(),
+      title: task.value,
+      completed: false
+    })
+    task.value = ''
+    console.log('task added')
+    notify({
+      group: 'success',
+      text: 'Task added successfully',
+      title: 'success'
+    })
+    isShowInput.value = false
+  } catch (error) {
+    // task.value = ''
+    isShowInput.value = true
 
-  isLoading.value = false
-  task.value = ''
-  isShowInput.value = false
+    console.log(error)
+  }
 }
 </script>
 
@@ -51,33 +62,35 @@ const onAddTask = () => {
 
   <!-- add task input -->
 
-  <div class="flex justify-center">
-    <!-- Put this part before </body> tag -->
-    <div class="modal" v-show="isShowInput" @click.stop="toggleInput">
-      <div class="modal-box" @click.stop>
-        <div class="flex items-center gap-x-2 my-4">
-          <!-- <input type="checkbox" checked class="task-checkbox" data-theme="dark" /> -->
-          <input
-            type="text"
-            placeholder="Add new task"
-            v-model="task"
-            :disabled="isLoading"
-            class="add-task__input"
-          />
-          <AppBtn
-            text="Add Task"
-            color="purple"
-            size="sm"
-            :loading="isLoading"
-            rounded
-            @click="onAddTask"
-          >
-            <PlusIcon class="h-4 w-4" v-show="!isLoading" />
-          </AppBtn>
+  <Teleport to="body">
+    <div class="flex justify-center">
+      <!-- Put this part before </body> tag -->
+      <div class="modal" v-show="isShowInput" @click.stop="toggleInput">
+        <div class="modal-box" @click.stop>
+          <div class="flex items-center gap-x-2 my-4">
+            <!-- <input type="checkbox" checked class="task-checkbox" data-theme="dark" /> -->
+            <input
+              type="text"
+              placeholder="Add new task"
+              v-model="task"
+              :disabled="loading"
+              class="add-task__input"
+            />
+            <AppBtn
+              text="Add Task"
+              color="purple"
+              size="sm"
+              :loading="loading"
+              rounded
+              @click="onAddTask"
+            >
+              <PlusIcon class="h-4 w-4" v-show="!loading" />
+            </AppBtn>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <style scoped>
